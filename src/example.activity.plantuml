@@ -6,24 +6,27 @@
 title Example Activity Diagram\nRendered %date('yyyy.MM.dd')
 
 
-(*) --> [Create Diagram File] "New diagram assigned"
+(*) --> ["New Diagram assigned"] "Create Diagram File"
 note right: Create one from scratch, or use a template.
---> [Author Content] "edit"
+--> [Figure out corretn content] "Edit File"
 note right: This is just another note
 --> === BStart ===
 
 === BStart === --> "Get Work Done"
-if "It's late?" then
+if "You're done?" then
     --> [yes] "Go To Sleep"
     --> === BEnd ===
 
 else
-    -> [no] "Keep Working"
+    -> [no] "Take a Break"
     --> === BEnd ===
 endif
 
+=== BStart === --> "Turn off Distractions"
+--> === BEnd ===
+
 --> "Commit and Push File"
---> "Wait for Deployment" 
+--> [Automated CI/CD] "Check out Deployment!" 
 --> (*)
 
 @enduml
