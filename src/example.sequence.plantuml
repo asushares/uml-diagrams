@@ -4,7 +4,7 @@
 autonumber
 ' Example by Preston Lee
 
-title Template Sequence Diagram\nRendered %date('yyyy.MM.dd')
+title Example Sequence Diagram\nRendered %date('yyyy.MM.dd')
 
 
 box Engineering
