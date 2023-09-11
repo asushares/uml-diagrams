@@ -1,4 +1,4 @@
-@startuml Provider Use Case
+@startuml Patient Use Case
 :Patient: as p1
 :FHIR Server: as FHIR
 left to right direction
