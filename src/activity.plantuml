@@ -1,0 +1,36 @@
+@startuml ONCLeap
+
+!include style/activity.plantuml
+' By by Preston Lee, Daniel Mendoza
+
+title ONCLeap Activity Diagram\nRendered %date('yyyy.MM.dd')
+
+
+(*) --> ["New Request Started"] "Create New Hook"
+note right: Start one from scratch, or use a template.
+--> [Figure out corretn content] "Edit File"
+note right: This is just another note
+--> === BStart ===
+
+=== BStart === --> "Get Work Done"
+if "You're done?" then
+    --> [yes] "Go To Sleep"
+    --> === BEnd ===
+
+else
+    -> [no] "Take a Break"
+    --> === BEnd ===
+endif
+
+=== BStart === --> "Turn off Distractions"
+--> === BEnd ===
+
+--> "Commit and Push File"
+--> [Automated CI/CD] "Check out Deployment!" 
+--> (*)
+
+@enduml
+
+
+
+backend frontend typescript online form tutorial

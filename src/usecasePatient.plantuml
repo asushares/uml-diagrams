@@ -1,4 +1,5 @@
 @startuml Patient Use Case
+title Patient Use Case Diagram\nRendered %date('yyyy.MM.dd')
 :Patient: as p1
 :FHIR Server: as FHIR
 left to right direction
