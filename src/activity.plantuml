@@ -7,17 +7,16 @@ title ONCLeap Activity Diagram\nRendered %date('yyyy.MM.dd')
 
 
 (*) --> ["New Request Started"] "New Hook Recieved"
-note right: Note.
---> [Figure out corret context] "Correct syntax"
-note right: "Actor and Patient ID are required and additional\n information can be included.\n Must follow FHIR CDS Format
+--> [Context provided] "Correct syntax"
+note right: "Actor and Patient ID are required\n and additional information can be included.\n Must follow FHIR CDS Format.
 --> === BStart ===
 
 === BStart === --> "Validate Actor ID"
-note left: The actor ID is found through FHIR API
+note left: The actor ID is found \nthrough FHIR API
 --> "Validate Patient ID"
-note left: The Patient ID is found through FHIR API
+note left: The Patient ID is found \nthrough FHIR API
 --> "Identify Consent Form"
-note left: Find the consent resource for this patient
+note left: Find the consent resource for \nthis patient through FHIR API
 if "Has Consent?" then
     --> "Consent Permit"
     --> ==BEnd==
@@ -25,7 +24,7 @@ else
     -->"Respond No consent"
     if "More context" then
         --> "Redact Information"
-        note right: Some or all the information will be taken out.
+        note right: Some or all the information \nwill be taken out.
     endif
 endif
 --> === BEnd ===
