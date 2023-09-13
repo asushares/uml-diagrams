@@ -25,9 +25,9 @@ if "Valid" then
         note left: Find the consent resource for \nthis patient through FHIR API
         if "Has Consent?" then
             --> [yes]"Consent Permit"
-            if "More context" then
+            if "More patient information?" then
                 --> [yes]"Redact Information"
-                note left: Some or all the information \nwill be taken out.
+                note left: None, some, or all the information \nwill be taken out.
                 --> === BEnd ===
             else
                 --> [no]"Consent parameters"
