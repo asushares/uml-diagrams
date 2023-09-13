@@ -9,28 +9,46 @@ title ONCLeap Activity Diagram\nRendered %date('yyyy.MM.dd')
 (*) --> ["New Request Started"] "New Hook Recieved"
 --> [Context provided] "Correct syntax"
 note right: "Actor and Patient ID are required\n and additional information can be included.\n Must follow FHIR CDS Format.
---> === BStart ===
-
+if "Valid" then
+    --> === BStart ===
+else
+    --> "Error Message"
+    --> ===BEnd===
+endif
 === BStart === --> "Validate Actor ID"
 note left: The actor ID is found \nthrough FHIR API
---> "Validate Patient ID"
-note left: The Patient ID is found \nthrough FHIR API
---> "Identify Consent Form"
-note left: Find the consent resource for \nthis patient through FHIR API
-if "Has Consent?" then
-    --> "Consent Permit"
-    --> ==BEnd==
-else 
-    -->"Respond No consent"
-    if "More context" then
-        --> "Redact Information"
-        note right: Some or all the information \nwill be taken out.
+if "Valid" then
+    -->  [yes] "Validate Patient ID"
+    note left: The Patient ID is found \nthrough FHIR API
+    if "Valid" then
+        --> [yes]"Identify Consent Form"
+        note left: Find the consent resource for \nthis patient through FHIR API
+        if "Has Consent?" then
+            --> [yes]"Consent Permit"
+            if "More context" then
+                --> [yes]"Redact Information"
+                note left: Some or all the information \nwill be taken out.
+                --> === BEnd ===
+            else
+                --> [no]"Consent parameters"
+                note left: What consents are provided?
+                --> ===BEnd===
+            endif
+        else
+            -->[no]"Respond No consent"
+            --> ===BEnd===
+        endif
+    else
+        --> [no]"Error Message"
     endif
+else
+    --> [no]"Error Message"
 endif
---> === BEnd ===
---> "Post response"
---> (*)
+===BEnd=== --> [Send message]"Post response"
+-->(*)
 @enduml
+
+
 
 
 
