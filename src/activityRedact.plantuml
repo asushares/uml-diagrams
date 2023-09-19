@@ -1,9 +1,9 @@
-@startuml ONCLeap
+@startuml ONCLeap Redact
 
 !include style/activity.plantuml
 ' By by Preston Lee, Daniel Mendoza
 
-title ONCLeap Activity Diagram\nRendered %date('yyyy.MM.dd')
+title ONCLeap Redact Activity Diagram\nRendered %date('yyyy.MM.dd')
 
 
 (*) --> ["New Request Started"] "New Hook Recieved"
@@ -14,19 +14,8 @@ if "Valid" then
         -->  [yes] "Validate Patient ID"
         if "Valid" then
             --> [yes]"Identify Consent Form"
-            if "Has Consent?" then
-                --> [yes]"Consent Permit"
-                if "Patient content bundle?" then
-                    --> [yes]"Redact Data"
-                    --> === BEnd ===
-                else
-                    --> [no]"Consent parameters"
-                    --> ===BEnd===
-                endif
-            else
-                -->[no]"Respond No consent"
-                --> ===BEnd===
-            endif
+            --> "Redact Data"
+            --> ===BEnd===
         else
             --> [no]"Error Message"
         endif
@@ -40,9 +29,3 @@ endif
 ===BEnd=== --> [Send message]"Post response"
 -->(*)
 @enduml
-
-
-
-
-
-backend frontend typescript online form tutorial

@@ -3,12 +3,21 @@ title Provider Use Case Diagram\nRendered %date('yyyy.MM.dd')
 :Provider: as p1
 :FHIR Server: as FHIR
 left to right direction
-rectangle ONCLeap{
+rectangle OnlineProviderPortal{
+    p1 --> (Create Patient Account)
+    p1 --> (Add Providers)
+    p1 --> (Create Consent)
+    p1 --> (Provide Consent for Patient)
+    (Provide Consent for Patient) <-- FHIR
+    p1 --> (Share Patient Data)
+    (Share Patient Data) <--FHIR
     p1 --> (Check Consent)
     (Check Consent) <-- FHIR
-    p1 --> (Request Information Share)
-    (Request Information Share) <-- FHIR
-
+    p1 --> (Search for Patients)
+    (Search for Patients) <-- FHIR
+    p1 --> (Update Patient Inforamtion)
+    (Update Patient Inforamtion) <-- FHIR
+    p1 --> (View Consent History)
+    (View Consent History) <-- FHIR
 }
-
 @enduml

@@ -1,0 +1,14 @@
+@startuml Provider Use Case
+title Provider Use Case Diagram\nRendered %date('yyyy.MM.dd')
+:Provider: as p1
+:FHIR Server: as FHIR
+left to right direction
+rectangle ONCLeap{
+    p1 --> (Check Consent)
+    (Check Consent) <-- FHIR
+    p1 --> (Request Information Share)
+    (Request Information Share) <-- FHIR
+
+}
+
+@enduml

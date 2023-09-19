@@ -1,24 +1,19 @@
-@startuml Patient Use Case
+@startuml Patient Use Case Diagram
 title Patient Use Case Diagram\nRendered %date('yyyy.MM.dd')
 :Patient: as p1
 :FHIR Server: as FHIR
 left to right direction
-rectangle OnlineConsentForm{
-    (Convert to FHIR Resource) as FR
-    FR <-- FHIR
-    p1 --> (Physician Access)
-    (Physician Access) ..> FR
-    p1 --> (Sensitive Category)
-    (Sensitive Category) ..> FR
-    p1 --> (Clinical Category)
-    (Clinical Category) ..> FR
-    p1 --> (Clinical Code)
-    (Clinical Code) ..> FR
-    p1 --> (Restricted Category)
-    (Restricted Category) ..> FR
+rectangle OnlinePatientPortal{
+    p1 --> (Login/Logout)
+    p1 --> (Add Providers)
+    p1 --> (Create Consents)
+    p1 --> (Provide Consents)
+    (Provide Consents) <-- FHIR
+    p1 --> (Revoke Consents)
+    (Revoke Consents) <-- FHIR
+    p1 --> (Preview Shared Inforamtion)
+    p1 --> (Upload Documents)
+    p1 --> (View Health Inforamtion)
 }
 
 @enduml
-
-Clinical Category is content class
-Sensitive Category is security label

@@ -1,0 +1,20 @@
+@startuml Provider Request Activity
+
+!include style/activity.plantuml
+' By by Preston Lee, Daniel Mendoza
+
+title Patient Request Activity Diagram\nRendered %date('yyyy.MM.dd')
+
+
+(*) --> ["Open Provider Portal"] "Login to Provider Portal"
+--> "Add Patient ID"
+--> "Add Actor ID"
+if "Share Patient Data?" then
+            --> [yes] "Add Patient Data"
+            --> "Save"
+else
+    --> [no]"Save"
+endif
+--> "Send API Hook"
+-->(*)
+@enduml

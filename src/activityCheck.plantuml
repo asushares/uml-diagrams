@@ -1,9 +1,9 @@
-@startuml ONCLeap
+@startuml ONCLeap Check
 
 !include style/activity.plantuml
 ' By by Preston Lee, Daniel Mendoza
 
-title ONCLeap Activity Diagram\nRendered %date('yyyy.MM.dd')
+title ONCLeap Check Activity Diagram\nRendered %date('yyyy.MM.dd')
 
 
 (*) --> ["New Request Started"] "New Hook Recieved"
@@ -15,34 +15,22 @@ if "Valid" then
         if "Valid" then
             --> [yes]"Identify Consent Form"
             if "Has Consent?" then
-                --> [yes]"Consent Permit"
-                if "Patient content bundle?" then
-                    --> [yes]"Redact Data"
-                    --> === BEnd ===
-                else
-                    --> [no]"Consent parameters"
-                    --> ===BEnd===
-                endif
+                --> [yes]"Respond Consent Permit"
+                --> ==BEnd===
             else
-                -->[no]"Respond No consent"
+                -->[no]"Respond No Consent"
                 --> ===BEnd===
             endif
         else
-            --> [no]"Error Message"
+            --> [no]"Respond Error Message"
         endif
     else
-        --> [no]"Error Message"
+        --> [no]"Respond Error Message"
     endif
 else
-    --> [no]"Error Message"
+    --> [no]"Respond Error Message"
     --> ===BEnd===
 endif
 ===BEnd=== --> [Send message]"Post response"
 -->(*)
 @enduml
-
-
-
-
-
-backend frontend typescript online form tutorial

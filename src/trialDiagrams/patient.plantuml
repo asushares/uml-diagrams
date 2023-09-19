@@ -1,0 +1,24 @@
+@startuml Patient Something
+title Patient Something Diagram\nRendered %date('yyyy.MM.dd')
+:Patient: as p1
+:FHIR Server: as FHIR
+left to right direction
+rectangle OnlineConsentForm{
+    (Convert to FHIR Resource) as FR
+    FR <-- FHIR
+    p1 --> (Physician Access)
+    (Physician Access) ..> FR
+    p1 --> (Sensitive Category)
+    (Sensitive Category) ..> FR
+    p1 --> (Clinical Category)
+    (Clinical Category) ..> FR
+    p1 --> (Clinical Code)
+    (Clinical Code) ..> FR
+    p1 --> (Restricted Category)
+    (Restricted Category) ..> FR
+}
+
+@enduml
+
+Clinical Category is content class
+Sensitive Category is security label

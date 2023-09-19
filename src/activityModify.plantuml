@@ -1,0 +1,19 @@
+@startuml Patient Modify Consent Activity
+
+!include style/activity.plantuml
+' By by Preston Lee, Daniel Mendoza
+
+title Patient Modify Consent Activity Diagram\nRendered %date('yyyy.MM.dd')
+
+
+(*) --> ["Open Patient Portal"] "Login to Patient Portal"
+--> ===PO===
+===PO=== --> "Provide Consent"
+--> ===END===
+===PO=== --> "Revoke Consent"
+--> ===END===
+--> "Choose Created Consent"
+--> "eSignature"
+--> "Send"
+-->(*)
+@enduml
