@@ -1,0 +1,35 @@
+@startuml Sequence UML
+participant Patient
+participant Provider
+database "FHIR server" as FHIR
+participant "OncLeap Engine\n(Consent Decision Service)" as OncLeap
+database SQL
+
+== Patient Flow ==
+Patient -> Patient: Login
+Patient -> Patient: Add provider and organization to profile
+Patient -> Patient: Fill out form to create Consent Document
+Patient -> Patient: Add Consent Document to profile
+Patient -> FHIR: Send Consent Document
+FHIR -> SQL: Store Consent Document
+
+== Provider Flow ==
+Provider -> Provider: Login
+Provider -> Provider: Input patient information into form
+Provider -> OncLeap: Send FHIR CDS hook
+OncLeap -> FHIR: Verify Consent through FHIR API
+FHIR -> SQL: Find Consent Resource
+alt Consent Found
+    SQL -> FHIR: Return Consent
+    FHIR -> OncLeap: Send Consent
+    OncLeap -> FHIR: Get Patient Data
+    FHIR -> SQL: Retrive Patient's Data
+    SQL -> FHIR: Return Patient's Data
+    FHIR -> OncLeap: Send Patient's Data
+    OncLeap -> OncLeap: Redact patient information based on consent
+    OncLeap -> Provider: Send redacted patient data
+else No Consent Found
+    OncLeap -> Provider: Return error "No consent found"
+end
+@enduml
+
