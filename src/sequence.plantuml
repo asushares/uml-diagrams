@@ -29,7 +29,9 @@ alt Consent Found
     OncLeap -> OncLeap: Redact patient information based on consent
     OncLeap -> Provider: Send redacted patient data
 else No Consent Found
-    OncLeap -> Provider: Return error "No consent found"
+    SQL -> FHIR: Could Not Find Consent
+    FHIR -> OncLeap: No Consent
+    OncLeap -> Provider: Return Error "No consent found"
 end
 @enduml
 
