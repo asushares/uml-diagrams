@@ -3,7 +3,7 @@
 !include style/activity.plantuml
 ' By by Preston Lee, Daniel Mendoza
 
-title Patient Request Activity Diagram\nRendered %date('yyyy.MM.dd')
+title Provider Request Activity Diagram\nRendered %date('yyyy.MM.dd')
 
 
 (*) --> ["Open Provider Portal"] "Login to Provider Portal"
