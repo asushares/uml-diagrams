@@ -1,0 +1,58 @@
+@startuml Consent Decision Service Engine Activity Diagram
+
+title Consent Decision Service Engine Activity Diagram
+
+start
+-> "Receive new hook\n(patient ID, actor ID)";
+
+:Locate consent documents\non FHIR server for patient;
+
+note right: Assuming patient ID and actor ID are correct
+
+if ("Are there applicable consent\ndocuments based on 'active' status\nand effective period?") then (no)
+  --> [no] "Return NO_CONSENT";
+  --> End;
+else (yes)
+  :For every applicable consent;
+  
+  note right
+  In the event of multiple applicable consent documents:
+  - All are evaluated in an undefined, idempotent order, and may be in parallel.
+  - Any DENY always trumps all PERMIT decision of other consent documents.
+  end note
+  
+  while ("Consent depth-first recursive search") is (Are there more consents to evaluate?)
+    if ("Are there ANY leaf-node denials?") then (yes)
+        --> [yes] "Return DENY";
+      --> End;
+    else (no)
+      if ("Did any leaf-node render a permit decision?") then (yes)
+        if (Never Denied before?) then (yes)
+        --> [yes] "Return PERMIT";
+        else (no)
+        --> [no] Return DENY
+        endif
+        --> End;
+      else (no)
+        if ("Is the consent decision type 'permit'\nat the root level?") then (yes)
+          if (Never Denied before?) then (yes)
+            --> [yes] "Return PERMIT";
+            else (no)
+            --> [no] Return DENY
+            endif
+            --> End;
+        else (no)
+          if ("Is the consent decision type 'deny'\nat the root level?") then (yes)
+            --> [yes] "Return DENY";
+            --> End;
+          endif
+        endif
+      endif
+    endif
+  endwhile
+  
+endif
+--> Return redacted patient profile
+->
+end
+@enduml
