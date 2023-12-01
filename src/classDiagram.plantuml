@@ -1,0 +1,60 @@
+@startuml Class Diagram
+!define CLASS class
+title SHARES Consent Class Diagram
+' Classes for the Patient side
+CLASS Patient {
+    +String username
+    +String password
+    +List<Provider> providers
+    +List<ConsentDocument> consentDocuments
+    +void login()
+    +void addProvider(Provider provider)
+    +void createConsentDocument(ConsentDocument document)
+    +void sendConsentDocument(FHIRServer fhirServer)
+}
+
+CLASS Provider {
+    +String name
+    +String organization
+}
+
+CLASS ConsentDocument {
+    +String content
+    +Date dateCreated
+    +void addDocumentToProfile(Patient patient)
+}
+
+' Classes for the FHIR Server and Database
+CLASS FHIRServer {
+    +void storeConsentDocument(ConsentDocument document, SQLDatabase database)
+    +ConsentDocument verifyConsent(String patientInfo, SQLDatabase database)
+    +PatientData getPatientData(SQLDatabase database)
+    +void sendCDSHook(SHARESEngine sharesEngine)
+}
+
+CLASS SQLDatabase {
+    +List<ConsentDocument> consentDocuments
+    +List<PatientData> patientData
+    +void storeConsentDocument(ConsentDocument document)
+    +ConsentDocument findConsentResource(String patientInfo)
+    +PatientData retrievePatientData(String patientInfo)
+}
+
+' Class for the SHARES Engine
+CLASS SHARESEngine {
+    +void processCDShook(FHIRServer fhirServer, Provider provider)
+    +void redactPatientInformation(PatientData data, ConsentDocument consent)
+    +PatientData getRedactedPatientData()
+}
+
+' Relationships
+Patient "1" --> "*" ConsentDocument
+Patient "1" --> "*" Provider
+FHIRServer "1" --> "1" SQLDatabase
+FHIRServer "1" --> "1" SHARESEngine
+SQLDatabase "1" --> "*" ConsentDocument
+SQLDatabase "1" --> "*" PatientData
+SHARESEngine "1" --> "1" Provider
+SHARESEngine "1" --> "0..1" PatientData
+
+@enduml

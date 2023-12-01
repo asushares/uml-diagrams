@@ -1,8 +1,10 @@
 @startuml Sequence UML
+
+title Sequence UML for SHARES Engine
 participant Patient
 participant Provider
 database "FHIR server" as FHIR
-participant "OncLeap Engine\n(Consent Decision Service)" as OncLeap
+participant "SHARES Engine\n(Consent Decision Service)" as SHARES
 database SQL
 
 == Patient Flow ==
@@ -16,22 +18,22 @@ FHIR -> SQL: Store Consent Document
 == Provider Flow ==
 Provider -> Provider: Login
 Provider -> Provider: Input patient information into form
-Provider -> OncLeap: Send FHIR CDS hook
-OncLeap -> FHIR: Verify Consent through FHIR API
+Provider -> SHARES: Send FHIR CDS hook
+SHARES -> FHIR: Verify Consent through FHIR API
 FHIR -> SQL: Find Consent Resource
 alt Consent Found
     SQL -> FHIR: Return Consent
-    FHIR -> OncLeap: Send Consent
-    OncLeap -> FHIR: Get Patient Data
+    FHIR -> SHARES: Send Consent
+    SHARES -> FHIR: Get Patient Data
     FHIR -> SQL: Retrive Patient's Data
     SQL -> FHIR: Return Patient's Data
-    FHIR -> OncLeap: Send Patient's Data
-    OncLeap -> OncLeap: Redact patient information based on consent
-    OncLeap -> Provider: Send redacted patient data
+    FHIR -> SHARES: Send Patient's Data
+    SHARES -> SHARES: Redact patient information based on consent
+    SHARES -> Provider: Send redacted patient data
 else No Consent Found
     SQL -> FHIR: Could Not Find Consent
-    FHIR -> OncLeap: No Consent
-    OncLeap -> Provider: Return Error "No consent found"
+    FHIR -> SHARES: No Consent
+    SHARES -> Provider: Return Error "No consent found"
 end
 @enduml
 

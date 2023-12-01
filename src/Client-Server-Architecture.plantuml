@@ -1,0 +1,28 @@
+@startuml Client-Server Architecture
+!define RECTANGLE class
+title Client-Server Architecture
+RECTANGLE Client {
+    :SHARES Consent Builder UI;
+    :Form Submission;
+    :View/Modify Consent;
+}
+
+RECTANGLE Server {
+    :FHIR Server;
+    :Data Processing;
+    :API Endpoints;
+}
+
+RECTANGLE Database {
+    :SQL Database;
+    :Store Patient Data;
+    :Manage Consent Records;
+}
+
+Client --> Server : Sends consent form\nvia POST API
+Server --> Client : Returns data\nfor display
+
+Server --> Database : Validate and Store\nConsent Data
+Database --> Server : Retrieve and\nSend Back Data
+
+@enduml
